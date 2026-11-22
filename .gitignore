@@ -27,3 +27,5 @@ dist-ssr
 HANDOFF.md
 PLAN.md
 .qa-artifacts/
+
+script/heart.svg
