@@ -1,0 +1,62 @@
+/*
+ * Apple-style "Liquid Glass" — Shu Ding의 오픈소스 기법(https://github.com/shuding/liquid-glass, MIT, 2025)과
+ * 이를 대중화한 CSS+SVG 굴절 기법 문서(kube.io)를 이 앱에 맞게 각색해 벤더링했다.
+ *
+ * 기본층: 프로스티 글래스(모든 모던 브라우저).
+ * 업그레이드층 `html.lg-distort`(Chromium — main.tsx에서 판정): backdrop-filter가 공유 SVG 변위 필터
+ * #lg-map(라운드-렉트 SDF 변위 맵, src/lib/glassFilter.ts 생성)을 참조해 가장자리 굴절을 낸다.
+ */
+.liquid-glass {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.26));
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.35),
+    0 12px 32px rgba(120, 90, 70, 0.16),
+    0 2px 6px rgba(120, 90, 70, 0.1);
+  backdrop-filter: blur(7px) saturate(170%) brightness(1.07);
+  -webkit-backdrop-filter: blur(7px) saturate(170%) brightness(1.07);
+}
+
+/* 테두리 굴절 광택 */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 26%,
+    rgba(255, 255, 255, 0) 72%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  mix-blend-mode: screen;
+}
+
+/* 윗면 스페큘러 하이라이트 */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 2px;
+  height: 32%;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+}
+
+/* Chromium 업그레이드 — SVG 변위 맵을 통한 실제 굴절 */
+.lg-distort .liquid-glass {
+  backdrop-filter: url(#lg-map) blur(2.5px) saturate(165%) brightness(1.06);
+}
+
+.lg-defs {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}

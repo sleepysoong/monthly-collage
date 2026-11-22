@@ -1,0 +1,12 @@
+/*
+ * 뚝딱감자 (TtukttakGamja) — 무료 상업용 폰트, Project Noonnu 제공.
+ * 사용자가 핀한 @font-face 선언(Noonnu jsdelivr CDN)을 오프라인 PWA 대응을 위해
+ * 로컬 번들(src/assets/fonts/)로 서빙한다. weight 400 단일.
+ */
+@font-face {
+  font-family: "TtukttakGamja";
+  src: url("./assets/fonts/ttukttakgamja.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
